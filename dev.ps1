@@ -8,3 +8,4 @@ cinst Firefox -y
 cinst GoogleChrome -y
 cinst fiddler4 -y
 cinst winmerge -y
+cisnt windowsazurepowershell -y
