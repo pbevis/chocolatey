@@ -9,3 +9,4 @@ cinst Firefox
 cinst GoogleChrome
 cinst fiddler4
 cinst winmerge
+cinst ruby
