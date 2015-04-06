@@ -1,7 +1,6 @@
 Write-Host "Installing Chocolatey"
 iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
-Write-Host
- 
+
 Write-Host "Installing applications from Chocolatey"
 cinst git
 cinst notepadplusplus
