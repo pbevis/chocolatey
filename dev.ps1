@@ -1,4 +1,4 @@
-if (Get-Command choco) 
+if (-not (Get-Command choco))
 {
     Write-Host "Installing Chocolatey"
     iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
@@ -11,4 +11,4 @@ cinst Firefox -y
 cinst GoogleChrome -y
 cinst fiddler4 -y
 cinst winmerge -y
-cisnt windowsazurepowershell -y
+cinst windowsazurepowershell -y
