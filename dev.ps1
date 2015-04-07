@@ -10,6 +10,7 @@ choco install GoogleChrome -y
 choco install fiddler4 -y
 choco install winmerge -y
 choco install windowsazurepowershell -y
+choco install ruby -y
 choco install vagrant -y
 
 Write-Host "Installing vagrant plugins..."
