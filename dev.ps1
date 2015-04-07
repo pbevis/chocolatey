@@ -13,4 +13,4 @@ choco install windowsazurepowershell -y
 choco install vagrant -y
 
 Write-Host "Installing vagrant plugins..."
-vagrant plugin install vagrant-azure
+C:\HashiCorp\Vagrant\bin\vagrant plugin install vagrant-azure
