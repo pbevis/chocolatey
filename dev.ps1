@@ -11,3 +11,4 @@ choco install fiddler4 -y
 choco install winmerge -y
 choco install windowsazurepowershell -y
 choco install ruby -y
+choco install paint.net -y
