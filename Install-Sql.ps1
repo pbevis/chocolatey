@@ -7,8 +7,9 @@ $tempPath = [System.IO.Path]::GetTempPath()
 $isoFilePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($IsoFileUrl))
 $configFilePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($ConfigFileUrl))
 
-Start-BitsTransfer -Source $IsoFileUrl -Destination $isoFilePath
-Start-BitsTransfer -Source $ConfigFileUrl -Destination $configFilePath
+$client = New-Object System.Net.WebClient
+$client.DownloadFile($IsoFileUrl, $isoFilePath) 
+$client.DownloadFile($ConfigFileUrl, $configFilePath) 
 
 $volume = Mount-DiskImage -ImagePath $isoFilePath -StorageType ISO -PassThru | Get-Volume
 
