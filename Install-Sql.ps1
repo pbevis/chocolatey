@@ -5,6 +5,9 @@ $ErrorActionPreference = "Stop"
 
 Install-WindowsFeature –Name "NET-Framework-Core"
 
+Import-Module ActiveDirectory
+New-ADUser -Name "sql" -Path "CN=Users,DC=dev,DC=com" -SamAccountName "sql" -AccountPassword (ConvertTo-SecureString "Password123" -AsPlainText -Force) -ChangePasswordAtLogon:$false -Enabled $true
+
 $tempPath = [System.IO.Path]::GetTempPath()
 $isoFilePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($IsoFileUrl))
 $configFilePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($ConfigFileUrl))
