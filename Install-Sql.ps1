@@ -3,6 +3,8 @@ $ConfigFileUrl = "https://raw.githubusercontent.com/pbevis/chocolatey/master/Con
 
 $ErrorActionPreference = "Stop"
 
+Install-WindowsFeature –Name NET-Framework-Core
+
 $tempPath = [System.IO.Path]::GetTempPath()
 $isoFilePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($IsoFileUrl))
 $configFilePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($ConfigFileUrl))
