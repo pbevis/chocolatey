@@ -3,7 +3,7 @@ $ConfigFileUrl = "https://raw.githubusercontent.com/pbevis/chocolatey/master/Con
 
 $ErrorActionPreference = "Stop"
 
-Install-WindowsFeature –Name "NET-Framework-Core"
+Install-WindowsFeature NET-Framework-Core
 
 Import-Module ActiveDirectory
 New-ADUser -Name "sql" -Path "CN=Users,DC=dev,DC=com" -SamAccountName "sql" -AccountPassword (ConvertTo-SecureString "Password123" -AsPlainText -Force) -ChangePasswordAtLogon:$false -Enabled $true
