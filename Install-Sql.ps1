@@ -20,7 +20,7 @@ $volume = Mount-DiskImage -ImagePath $isoFilePath -StorageType ISO -PassThru | G
 
 try
 {
-    Invoke-Expression "$($volume.DriveLetter):\setup.exe /IAcceptSQLServerLicenseTerms /ConfigurationFile=$configFilePath"
+    Invoke-Expression "$($volume.DriveLetter):\setup.exe /ConfigurationFile=$configFilePath"
 }
 finally
 {
