@@ -33,11 +33,12 @@ $users = $data | select  @{Name="Name";Expression={$_.last + ", " + $_.first}},`
          @{Name="EmailAddress"; Expression={$_.email}},`
          @{Name="AccountPassword"; Expression={ (Convertto-SecureString -Force -AsPlainText "Password123")}},`
          @{Name="OfficePhone"; Expression={$_.phone}},`
+         @{Name="Photo"; Expression={$_.thumbnail}},`
          @{Name="Enabled"; Expression={$true}},`
          @{Name="PasswordNeverExpires"; Expression={$true}},`
          @{Name="Path"; Expression={$ou.DistinguishedName}}
          
 $users | % {
     Write-Host "Importing $($_.UserPrincipalName)..."
-    $_ | New-ADUser  
+    $_ | New-ADUser -PassThru | Set-ADUser -Replace @{thumbnailPhoto=((new-object net.webclient).DownloadData($_.Photo))}
 }
