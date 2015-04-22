@@ -3,3 +3,5 @@ Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 Import-Module ADDSDeployment
 Write-Host "Installing AD..."
 Install-ADDSForest -ForestMode "Win2012R2" -DomainName "dev.com" -DomainMode "Win2012R2" -DomainNetbiosName "DEV" -SafeModeAdministratorPassword (ConvertTo-SecureString "Password123" -AsPlainText -Force) -InstallDns -NoRebootOnCompletion -Force
+Write-Host "Enabling Credential Security Support Provider (CredSSP) authentication..."
+Enable-WSManCredSSP -Role Server -Force
