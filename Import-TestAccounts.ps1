@@ -1,12 +1,22 @@
+$FileUrl = "https://raw.githubusercontent.com/pbevis/chocolatey/master/TestAccounts.csv"
+
 Import-Module ActiveDirectory
 $dn = (Get-ADDomain).DistinguishedName
 $forest = (Get-ADDomain).Forest
- 
+
 $ou = Get-ADOrganizationalUnit -Filter 'name -eq "Test Users"'
 if($ou -eq $null) {
     New-ADOrganizationalUnit -Name "Test Users" -Path $dn
     $ou = Get-ADOrganizationalUnit -Filter 'name -eq "Test Users"'
 }
+
+$tempPath = [System.IO.Path]::GetTempPath()
+$filePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($FileUrl))
+
+$client = New-Object System.Net.WebClient
+$client.DownloadFile($FileUrl, $filePath) 
+
+$data = Import-Csv $filePath
 
 $users = $data | select  @{Name="Name";Expression={$_.Surname + ", " + $_.GivenName}},`
          @{Name="SamAccountName"; Expression={$_.GivenName + "." + $_.Surname}},`
