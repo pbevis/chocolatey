@@ -36,5 +36,5 @@ $users = $data | select  @{Name="Name";Expression={$_.last + ", " + $_.first}},`
          
 $users | % {
     Write-Host "Importing $($_.UserPrincipalName)..."
-    $_ | Select @{Name="Path"; Expression={$subou.DistinguishedName}},* | New-ADUser  
+    $_ | Select @{Name="Path"; Expression={$dn}},* | New-ADUser  
 }
