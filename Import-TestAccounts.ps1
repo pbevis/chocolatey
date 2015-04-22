@@ -10,8 +10,6 @@ if($ou -eq $null) {
     $ou = Get-ADOrganizationalUnit -Filter 'name -eq "Test Users"'
 }
 
-$ou.DistinguishedName
-
 $tempPath = [System.IO.Path]::GetTempPath()
 $filePath = [System.IO.Path]::Combine($tempPath, "Users.csv")
 
