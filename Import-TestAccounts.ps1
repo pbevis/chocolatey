@@ -32,9 +32,10 @@ $users = $data | select  @{Name="Name";Expression={$_.last + ", " + $_.first}},`
          @{Name="AccountPassword"; Expression={ (Convertto-SecureString -Force -AsPlainText "Password123")}},`
          @{Name="OfficePhone"; Expression={$_.phone}},`
          @{Name="Enabled"; Expression={$true}},`
-         @{Name="PasswordNeverExpires"; Expression={$true}}
+         @{Name="PasswordNeverExpires"; Expression={$true}},`
+         @{Name="Path"; Expression={$ou.DistinguishedName}}
          
 $users | % {
     Write-Host "Importing $($_.UserPrincipalName)..."
-    $_ | Select @{Name="Path"; Expression={$dn}},* | New-ADUser  
+    $_ | New-ADUser  
 }
