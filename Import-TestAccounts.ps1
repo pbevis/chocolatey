@@ -21,8 +21,8 @@ $client.DownloadFile($FileUrl, $filePath)
 $data = Import-Csv $filePath
 
 $users = $data | select  @{Name="Name";Expression={$_.Surname + ", " + $_.GivenName}},`
-         @{Name="SamAccountName"; Expression={$_.GivenName + "." + $_.Surname}},`
-         @{Name="UserPrincipalName"; Expression={$_.GivenName + "." + $_.Surname + "@" + $forest}},`
+         @{Name="SamAccountName"; Expression={$_.Username}},`
+         @{Name="UserPrincipalName"; Expression={$_.Username + "@" + $forest}},`
          @{Name="GivenName"; Expression={$_.GivenName}},`
          @{Name="Surname"; Expression={$_.Surname}},`
          @{Name="DisplayName"; Expression={$_.Surname + ", " + $_.GivenName}},`
@@ -31,7 +31,7 @@ $users = $data | select  @{Name="Name";Expression={$_.Surname + ", " + $_.GivenN
          @{Name="State"; Expression={$_.StateFull}},`
          @{Name="Country"; Expression={$_.Country}},`
          @{Name="PostalCode"; Expression={$_.ZipCode}},`
-         @{Name="EmailAddress"; Expression={$_.GivenName + "." + $_.Surname + "@" + $forest}},`
+         @{Name="EmailAddress"; Expression={$_.EmailAddress}},`
          @{Name="AccountPassword"; Expression={ (Convertto-SecureString -Force -AsPlainText "Password123")}},`
          @{Name="OfficePhone"; Expression={$_.TelephoneNumber}},`
          @{Name="Title"; Expression={$_.Occupation}},`
