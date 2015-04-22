@@ -1,5 +1,3 @@
-$FileUrl = "https://raw.githubusercontent.com/pbevis/chocolatey/master/TestAccounts.csv"
-
 $ErrorActionPreference = "Stop"
 
 Import-Module ActiveDirectory
@@ -13,37 +11,30 @@ if($ou -eq $null) {
 }
 
 $tempPath = [System.IO.Path]::GetTempPath()
-$filePath = [System.IO.Path]::Combine($tempPath, [System.IO.Path]::GetFileName($FileUrl))
+$filePath = [System.IO.Path]::Combine($tempPath, "Users.csv")
 
 $client = New-Object System.Net.WebClient
-$client.DownloadFile($FileUrl, $filePath) 
+$client.DownloadFile("http://api.randomuser.me/?seed=fsp&results=500&format=csv", $filePath) 
 
 $data = Import-Csv $filePath
 
-$users = $data | select  @{Name="Name";Expression={$_.Surname + ", " + $_.GivenName}},`
-         @{Name="SamAccountName"; Expression={$_.Username}},`
-         @{Name="UserPrincipalName"; Expression={$_.Username + "@" + $forest}},`
-         @{Name="GivenName"; Expression={$_.GivenName}},`
-         @{Name="Surname"; Expression={$_.Surname}},`
-         @{Name="DisplayName"; Expression={$_.Surname + ", " + $_.GivenName}},`
-         @{Name="City"; Expression={$_.City}},`
-         @{Name="StreetAddress"; Expression={$_.StreetAddress}},`
-         @{Name="State"; Expression={$_.StateFull}},`
-         @{Name="Country"; Expression={$_.Country}},`
-         @{Name="PostalCode"; Expression={$_.ZipCode}},`
-         @{Name="EmailAddress"; Expression={$_.EmailAddress}},`
+$users = $data | select  @{Name="Name";Expression={$_.last + ", " + $_.first}},`
+         @{Name="SamAccountName"; Expression={$_.username}},`
+         @{Name="UserPrincipalName"; Expression={$_.username + "@" + $forest}},`
+         @{Name="GivenName"; Expression={$_.first}},`
+         @{Name="Surname"; Expression={$_.last}},`
+         @{Name="DisplayName"; Expression={$_.last + ", " + $_.first}},`
+         @{Name="City"; Expression={$_.city}},`
+         @{Name="StreetAddress"; Expression={$_.street}},`
+         @{Name="State"; Expression={$_.state}},`
+         @{Name="PostalCode"; Expression={$_.zip}},`
+         @{Name="EmailAddress"; Expression={$_.email}},`
          @{Name="AccountPassword"; Expression={ (Convertto-SecureString -Force -AsPlainText "Password123")}},`
-         @{Name="OfficePhone"; Expression={$_.TelephoneNumber}},`
-         @{Name="Title"; Expression={$_.Occupation}},`
+         @{Name="OfficePhone"; Expression={$_.phone}},`
          @{Name="Enabled"; Expression={$true}},`
          @{Name="PasswordNeverExpires"; Expression={$true}}
          
 $users | % {
-    $subou = Get-ADOrganizationalUnit -Filter "name -eq ""$($_.Country)""" -SearchBase $ou.DistinguishedName        
-    if($subou -eq $null) {
-        New-ADOrganizationalUnit -Name $_.Country -Path $ou.DistinguishedName
-        $subou = Get-ADOrganizationalUnit -Filter "name -eq ""$($_.Country)""" -SearchBase $ou.DistinguishedName        
-    }
     Write-Host "Importing $($_.UserPrincipalName)..."
     $_ | Select @{Name="Path"; Expression={$subou.DistinguishedName}},* | New-ADUser  
 }
