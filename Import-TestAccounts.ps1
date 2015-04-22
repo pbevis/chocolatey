@@ -1,5 +1,7 @@
 $FileUrl = "https://raw.githubusercontent.com/pbevis/chocolatey/master/TestAccounts.csv"
 
+$ErrorActionPreference = "Stop"
+
 Import-Module ActiveDirectory
 $dn = (Get-ADDomain).DistinguishedName
 $forest = (Get-ADDomain).Forest
