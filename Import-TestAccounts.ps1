@@ -42,5 +42,6 @@ $users | % {
         New-ADOrganizationalUnit -Name $_.Country -Path $ou.DistinguishedName
         $subou = Get-ADOrganizationalUnit -Filter "name -eq ""$($_.Country)""" -SearchBase $ou.DistinguishedName        
     }
+    Write-Host "Importing $($_.UserPrincipalName)..."
     $_ | Select @{Name="Path"; Expression={$subou.DistinguishedName}},* | New-ADUser  
 }
