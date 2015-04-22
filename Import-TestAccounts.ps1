@@ -16,7 +16,7 @@ $tempPath = [System.IO.Path]::GetTempPath()
 $filePath = [System.IO.Path]::Combine($tempPath, "Users.csv")
 
 $client = New-Object System.Net.WebClient
-$client.DownloadFile("http://api.randomuser.me/?seed=fsp&results=500&format=csv", $filePath) 
+$client.DownloadFile("http://api.randomuser.me/?seed=fsp&results=100&format=csv", $filePath) 
 
 $data = Import-Csv $filePath
 
